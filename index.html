@@ -10,8 +10,14 @@
 <h2>Visualization homework 2</h2>
 <div>
     <h1 class="year" id="year-label">2000</h1>
-    <div>
+    <div class="plot">
         <svg id="svg-container"></svg>
+        <div class="side-pan">
+            <div class="selectors">
+                <div>radius:<select id='radius-select'></select></div>
+                <!-- Part 3: axis parameter selectors -->
+            </div>
+        </div>
     </div>
     <div class="range-control">
         <input type="range" class="slider" id="year-input" min="1800" max="2020" value="2000"/>

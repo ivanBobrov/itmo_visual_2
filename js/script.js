@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const xScale = d3.scaleLinear().range(([margin * 2, width - margin]));
     const yScale = d3.scaleLinear().range([height - margin, margin]);
     const colorScale = d3.scaleOrdinal().range(['aqua', 'lime', 'gold', 'hotpink']);
-    const rScale = d3.scaleLinear().range([1, 10]);
+    const rScale = d3.scaleLinear().range([2, 10]);
 
     xAxis = svg.append('g').attr('transform', `translate(0, ${height - margin})`);
     yAxis = svg.append('g').attr('transform', `translate(${margin * 2}, 0)`);
@@ -26,6 +26,14 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(data);
         d3.select('#year-input').on('change', function () {
             year = this.value;
+            updateChart(data);
+        });
+
+        const select = d3.select('#radius-select');
+        const params = ['child-mortality', 'fertility-rate', 'gdp', 'life-expectancy', 'population'];
+        params.forEach(p => select.append("option").attr('value', p).text(p));
+        select.on('change', function () {
+            rParam = this.value;
             updateChart(data);
         });
 
@@ -42,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let rRange = data.map(d => +d[rParam][year]);
         xScale.domain([d3.min(xRange), d3.max(xRange)]);
         yScale.domain([d3.min(yRange), d3.max(yRange)]);
+        rScale.domain([d3.min(rRange), d3.max(rRange)]);
         xAxis.call(d3.axisBottom(xScale));
         yAxis.call(d3.axisLeft(yScale));
 
@@ -49,13 +58,13 @@ document.addEventListener("DOMContentLoaded", function () {
             .append("circle")
             .attr('cx', (d, i) => xScale(+d[xParam][year]))
             .attr('cy', (d, i) => yScale(+d[yParam][year]))
-            .attr('r', (d, i) => 2)
+            .attr('r', (d, i) => rScale(+d[rParam][year]))
             .attr('fill', (d, i) => colorScale(d['region']));
 
         svg.selectAll('circle').data(data)
             .attr('cx', (d, i) => xScale(+d[xParam][year]))
             .attr('cy', (d, i) => yScale(+d[yParam][year]))
-            .attr('r', (d, i) => 2)
+            .attr('r', (d, i) => rScale(+d[rParam][year]))
             .attr('fill', (d, i) => colorScale(d['region']));
     }
 
