@@ -29,11 +29,28 @@ document.addEventListener("DOMContentLoaded", function () {
             updateChart(data);
         });
 
-        const select = d3.select('#radius-select');
         const params = ['child-mortality', 'fertility-rate', 'gdp', 'life-expectancy', 'population'];
-        params.forEach(p => select.append("option").attr('value', p).text(p));
-        select.on('change', function () {
+        const radiusSelector = d3.select('#radius-select');
+        params.forEach(p => radiusSelector.append('option').attr('value', p).text(p));
+        radiusSelector.property('value', rParam);
+        radiusSelector.on('change', function () {
             rParam = this.value;
+            updateChart(data);
+        });
+
+        const xSelector = d3.select('#x-param-select');
+        params.forEach(p => xSelector.append('option').attr('value', p).text(p));
+        xSelector.property('value', xParam);
+        xSelector.on('change', function () {
+            xParam = this.value;
+            updateChart(data);
+        });
+
+        const ySelector = d3.select('#y-param-select');
+        params.forEach(p => ySelector.append('option').attr('value', p).text(p));
+        ySelector.property('value', yParam);
+        ySelector.on('change', function () {
+            yParam = this.value;
             updateChart(data);
         });
 
