@@ -8,11 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let xParam = 'fertility-rate';
     let yParam = 'child-mortality';
-    let radius = 'gdp';
+    let rParam = 'gdp';
     let year = '2000';
 
     const xScale = d3.scaleLinear().range(([margin * 2, width - margin]));
     const yScale = d3.scaleLinear().range([height - margin, margin]);
+    const colorScale = d3.scaleOrdinal().range(['aqua', 'lime', 'gold', 'hotpink']);
+    const rScale = d3.scaleLinear().range([1, 10]);
 
     xAxis = svg.append('g').attr('transform', `translate(0, ${height - margin})`);
     yAxis = svg.append('g').attr('transform', `translate(${margin * 2}, 0)`);
@@ -33,9 +35,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateChart(data) {
         xLabel.text(xParam);
         yLabel.text(yParam);
+        d3.select('#year-label').text(year);
 
         let xRange = data.map(d => +d[xParam][year]);
         let yRange = data.map(d => +d[yParam][year]);
+        let rRange = data.map(d => +d[rParam][year]);
         xScale.domain([d3.min(xRange), d3.max(xRange)]);
         yScale.domain([d3.min(yRange), d3.max(yRange)]);
         xAxis.call(d3.axisBottom(xScale));
@@ -45,12 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
             .append("circle")
             .attr('cx', (d, i) => xScale(+d[xParam][year]))
             .attr('cy', (d, i) => yScale(+d[yParam][year]))
-            .attr('r', (d, i) => 2);
+            .attr('r', (d, i) => 2)
+            .attr('fill', (d, i) => colorScale(d['region']));
 
         svg.selectAll('circle').data(data)
             .attr('cx', (d, i) => xScale(+d[xParam][year]))
             .attr('cy', (d, i) => yScale(+d[yParam][year]))
-            .attr('r', (d, i) => 2);
+            .attr('r', (d, i) => 2)
+            .attr('fill', (d, i) => colorScale(d['region']));
     }
 
     async function loadData() {

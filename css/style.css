@@ -7,10 +7,8 @@ body{
     user-select:none;
     -o-user-select:none;
 }
-circle {
-    /* Part 2: это селектор будет перекрывать атрибут fill при попытке раскрасить объекты */
-    fill: #d9d9d9;
 
+circle {
     stroke: gray;
     opacity: .8;
 }
