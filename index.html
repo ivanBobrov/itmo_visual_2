@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="js/script.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <h2>Visualization homework 2</h2>
 <div>
-    <svg id="svg-container"></svg>
+    <div>
+        <svg id="svg-container"></svg>
+    </div>
+    <div class="range-control">
+        <input type="range" class="slider" id="year-input" min="1800" max="2020" value="2000"/>
+    </div>
 </div>
 </body>
 </html>
